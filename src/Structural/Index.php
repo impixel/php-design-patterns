@@ -5,6 +5,12 @@ namespace Patterns\Structural;
 use Patterns\Structural\FlyWeight\ShapeFactory;
 use Patterns\Structural\Composite\Song;
 use Patterns\Structural\Composite\Playlist;
+use Patterns\Structural\Bridge\Phone;
+use Patterns\Structural\Bridge\SMS;
+use Patterns\Structural\Proxy\AnimalFeeder\Cat;
+use Patterns\Structural\Proxy\AnimalFeeder\Dog;
+use Patterns\Structural\Proxy\AnimalFeederProxy;
+use Patterns\Structural\Facade\ToyShop;
 
 class Index
 {
@@ -12,11 +18,25 @@ class Index
     {
         switch ($patternName) {
             case 'FlyWeight':
-                return $this->getFlyWeight();
+                $this->getFlyWeight();
                 break;
+
             case 'Composite':
-                return $this->getComposite();
+                $this->getComposite();
                 break;
+
+            case 'Bridge':
+                $this->getBridge();
+                break;
+
+            case 'Proxy':
+                $this->getProxy();
+                break;
+
+            case 'Facade':
+                $this->getFacade();
+                break;
+
             default:
                 return "No Pattern been selected";
         }
@@ -50,5 +70,35 @@ class Index
         $playlistOne->addSong($playlistTwo);
         $playlistOne->addSong($playlistThree);
         $playlistOne->play();
+    }
+
+    private function getBridge()
+    {
+        $phone = new Phone();
+        $phone->setSender(new SMS());
+        $phone->send("Hello there!");
+    }
+
+    private function getProxy()
+    {
+        /** @var Cat $felix */
+        $felix = new AnimalFeederProxy('Cat', 'Felix');
+        echo $felix->displayFood(1);
+        echo "\n";
+        echo $felix->dropFood(1, true);
+        echo "\n";
+        /** @var Dog $brian */
+        $brian = new AnimalFeederProxy('Dog', 'Brian');
+        echo $brian->displayFood(1);
+        echo "\n";
+        echo $brian->dropFood(1, true);
+    }
+
+    private function getFacade()
+    {
+        $childrensToyFactory = new ToyShop('1 Factory Lane, Oxfordshire',
+            '07999999999', 5);
+        $childrensToyFactory->processOrder('8 Midsummer Boulevard', '07123456789');
+
     }
 }
