@@ -2,6 +2,7 @@
 
 namespace Patterns\Structural;
 
+use Patterns\Demo;
 use Patterns\Structural\FlyWeight\ShapeFactory;
 use Patterns\Structural\Composite\Song;
 use Patterns\Structural\Composite\Playlist;
@@ -12,8 +13,10 @@ use Patterns\Structural\Proxy\AnimalFeeder\Dog;
 use Patterns\Structural\Proxy\AnimalFeederProxy;
 use Patterns\Structural\Facade\ToyShop;
 
-class Index
+class Index implements Demo
 {
+    const PATTERNS = ['FlyWeight', 'Composite', 'Bridge', 'Proxy', 'Facade'];
+
     public function __construct(string $patternName)
     {
         switch ($patternName) {
@@ -38,7 +41,7 @@ class Index
                 break;
 
             default:
-                return "No Pattern been selected";
+                return "No Pattern been selected, available patterns are: ". rtrim(implode(", ", self::PATTERNS), ", ") . ".";
         }
     }
 
